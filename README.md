@@ -1,6 +1,6 @@
 # puppet-openbao
 
-[![Build Status](https://github.com/thejambavan/puppet-openbao/workflows/CI/badge.svg)](https://github.com/thejamvavan/puppet-openbao/actions?query=workflow%3ACI)
+[![Build Status](https://github.com/thejambavan/puppet-openbao/workflows/CI/badge.svg)](https://github.com/thejambavan/puppet-openbao/actions?query=workflow%3ACI)
 [![Release](https://github.com/thejambavan/puppet-openbao/actions/workflows/release.yml/badge.svg)](https://github.com/thejambavan/puppet-openbao/actions/workflows/release.yml)
 [![Puppet Forge](https://img.shields.io/puppetforge/v/puppet/openbao.svg)](https://forge.puppetlabs.com/puppet/openbao)
 [![Puppet Forge - downloads](https://img.shields.io/puppetforge/dt/puppet/openbao.svg)](https://forge.puppetlabs.com/puppet/openbao)
