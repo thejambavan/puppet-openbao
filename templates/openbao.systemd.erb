@@ -1,27 +1,27 @@
-# vault systemd unit file
+# openbao systemd unit file
 ###########################################################################################################
-# this file has been put in place by the jsok/vault Puppet module (https://forge.puppetlabs.com/jsok/vault)
+# this file has been put in place by the jsok/openbao Puppet module (https://forge.puppetlabs.com/jsok/openbao)
 # any changes will be overwritten if Puppet is run again
 # This script is originally from:
-# https://learn.hashicorp.com/vault/operations/ops-deployment-guide#step-3-configure-systemd
+# https://learn.hashicorp.com/openbao/operations/ops-deployment-guide#step-3-configure-systemd
 ###########################################################################################################
 
 [Unit]
-Description="HashiCorp Vault - A tool for managing secrets"
-Documentation=https://www.vaultproject.io/docs/
+Description="OpenBao - A tool for managing secrets"
+Documentation=https://www.openbao.org/docs/
 Requires=network-online.target
 After=network-online.target
-ConditionFileNotEmpty=<%= scope['vault::config_dir'] %>/config.json
+ConditionFileNotEmpty=<%= scope['openbao::config_dir'] %>/config.json
 
 [Service]
-User=<%= scope['vault::user'] %>
-Group=<%= scope['vault::group'] %>
+User=<%= scope['openbao::user'] %>
+Group=<%= scope['openbao::group'] %>
 PrivateDevices=yes
 PrivateTmp=yes
 ProtectSystem=full
 ProtectHome=read-only
 <% # Still require check for :undef for Puppet 3.x -%>
-<% if scope['vault::disable_mlock'] && scope['vault::disable_mlock'] != :undef -%>
+<% if scope['openbao::disable_mlock'] && scope['openbao::disable_mlock'] != :undef -%>
 CapabilityBoundingSet=CAP_SYSLOG
 <% else -%>
 SecureBits=keep-caps
@@ -29,8 +29,8 @@ Capabilities=CAP_IPC_LOCK+ep
 CapabilityBoundingSet=CAP_SYSLOG CAP_IPC_LOCK
 <% end -%>
 NoNewPrivileges=yes
-Environment=GOMAXPROCS=<%= scope['vault::num_procs'] %>
-ExecStart=<%= scope['vault::bin_dir'] %>/vault server -config=<%= scope['vault::config_dir'] %>/config.json <%= scope['vault::service_options'] %>
+Environment=GOMAXPROCS=<%= scope['openbao::num_procs'] %>
+ExecStart=<%= scope['openbao::bin_dir'] %>/bao server -config=<%= scope['openbao::config_dir'] %>/config.json <%= scope['openbao::service_options'] %>
 KillSignal=SIGINT
 TimeoutStopSec=30s
 Restart=on-failure

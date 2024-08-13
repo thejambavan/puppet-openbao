@@ -1,14 +1,14 @@
 # frozen_string_literal: true
 
-# Fact: vault_version
+# Fact: openbao_version
 #
-# Purpose: Retrieve vault version if installed
+# Purpose: Retrieve openbao version if installed
 #
-Facter.add(:vault_version) do
-  confine { Facter::Util::Resolution.which('vault') }
+Facter.add(:openbao_version) do
+  confine { Facter::Util::Resolution.which('openbao') }
   setcode do
-    vault_server_version_output = Facter::Util::Resolution.exec('vault version')
-    match = vault_server_version_output.match(%r{Vault v(\d+\.\d+\.\d+)})
+    openbao_server_version_output = Facter::Util::Resolution.exec('bao version')
+    match = openbao_server_version_output.match(%r{openbao v(\d+\.\d+\.\d+)})
     match&.captures&.first
   end
 end

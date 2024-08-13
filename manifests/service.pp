@@ -1,12 +1,12 @@
 #
 # @api private
 #
-class vault::service {
-  if $vault::manage_service {
-    service { $vault::service_name:
-      ensure   => $vault::service_ensure,
-      enable   => $vault::service_enable,
-      provider => $vault::service_provider,
+class openbao::service {
+  if $openbao::manage_service {
+    service { $openbao::service_name:
+      ensure   => $openbao::service_ensure,
+      enable   => $openbao::service_enable,
+      provider => $openbao::service_provider,
     }
   }
 }

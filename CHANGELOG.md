@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [master ]
+
+**Forked to puppet-openbao**
+
+Fork the entire module rather than attempting to add functionality to support both.
+
 ## [v4.1.0](https://github.com/voxpupuli/puppet-vault/tree/v4.1.0) (2023-11-19)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-vault/compare/v4.0.0...v4.1.0)

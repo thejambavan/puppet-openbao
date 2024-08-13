@@ -2,7 +2,7 @@
 
 require 'spec_helper_acceptance'
 
-describe 'vault class' do
+describe 'openbao class' do
   context 'default parameters' do
     it_behaves_like 'an idempotent resource' do
       let(:manifest) do
@@ -15,7 +15,7 @@ describe 'vault class' do
           include file_capability
         }
         package { 'unzip': ensure => present }
-        -> class { 'vault':
+        -> class { 'openbao':
           storage => {
             file => {
               path => '/tmp',
@@ -29,52 +29,52 @@ describe 'vault class' do
       end
     end
     # rubocop:disable RSpec/RepeatedExampleGroupBody
-    describe user('vault') do
+    describe user('openbao') do
       it { is_expected.to exist }
     end
 
-    describe group('vault') do
+    describe group('openbao') do
       it { is_expected.to exist }
     end
     # rubocop:enable RSpec/RepeatedExampleGroupBody
 
-    describe command('getcap /usr/local/bin/vault') do
+    describe command('getcap /usr/local/bin/openbao') do
       its(:exit_status) { is_expected.to eq 0 }
-      its(:stdout) { is_expected.to match %r{/usr/local/bin/vault.*cap_ipc_lock.*ep} }
+      its(:stdout) { is_expected.to match %r{/usr/local/bin/openbao.*cap_ipc_lock.*ep} }
     end
 
-    describe file('/usr/local/bin/vault') do
+    describe file('/usr/local/bin/openbao') do
       it { is_expected.to exist }
       it { is_expected.to be_mode 755 }
       it { is_expected.to be_owned_by 'root' }
       it { is_expected.to be_grouped_into 'root' }
     end
 
-    describe file('/etc/systemd/system/vault.service') do
+    describe file('/etc/systemd/system/openbao.service') do
       it { is_expected.to be_file }
       it { is_expected.to be_mode 444 }
       it { is_expected.to be_owned_by 'root' }
       it { is_expected.to be_grouped_into 'root' }
-      its(:content) { is_expected.to include 'User=vault' }
-      its(:content) { is_expected.to include 'Group=vault' }
-      its(:content) { is_expected.to include 'ExecStart=/usr/local/bin/vault server -config=/etc/vault/config.json ' }
+      its(:content) { is_expected.to include 'User=openbao' }
+      its(:content) { is_expected.to include 'Group=openbao' }
+      its(:content) { is_expected.to include 'ExecStart=/usr/local/bin/openbao server -config=/etc/openbao/config.json ' }
       its(:content) { is_expected.to match %r{Environment=GOMAXPROCS=\d+} }
     end
 
     describe command('systemctl list-units') do
-      its(:stdout) { is_expected.to include 'vault.service' }
+      its(:stdout) { is_expected.to include 'openbao.service' }
     end
 
-    describe file('/etc/vault') do
+    describe file('/etc/openbao') do
       it { is_expected.to be_directory }
     end
 
-    describe file('/etc/vault/config.json') do
+    describe file('/etc/openbao/config.json') do
       it { is_expected.to be_file }
       its(:content) { is_expected.to include('"address": "127.0.0.1:8200"') }
     end
 
-    describe service('vault') do
+    describe service('openbao') do
       it { is_expected.to be_enabled }
       it { is_expected.to be_running }
     end
@@ -83,9 +83,9 @@ describe 'vault class' do
       it { is_expected.to be_listening.on('127.0.0.1').with('tcp') }
     end
 
-    describe command('/usr/local/bin/vault version') do
+    describe command('/usr/local/bin/openbao version') do
       its(:exit_status) { is_expected.to eq 0 }
-      its(:stdout) { is_expected.to match %r{Vault v1.12.0} }
+      its(:stdout) { is_expected.to match %r{openbao v1.12.0} }
     end
   end
 
@@ -100,7 +100,7 @@ describe 'vault class' do
         include file_capability
       }
       package { 'unzip': ensure => present }
-      -> class { 'vault':
+      -> class { 'openbao':
         storage => {
           file => {
             path => '/tmp',
@@ -118,9 +118,9 @@ describe 'vault class' do
       apply_manifest(manifest, expect_changes: true)
     end
 
-    describe command('/usr/local/bin/vault version') do
+    describe command('/usr/local/bin/openbao version') do
       its(:exit_status) { is_expected.to eq 0 }
-      its(:stdout) { is_expected.to match %r{Vault v1.12.1} }
+      its(:stdout) { is_expected.to match %r{openbao v1.12.1} }
     end
   end
 
@@ -135,7 +135,7 @@ describe 'vault class' do
         } else {
           include file_capability
         }
-        class { 'vault':
+        class { 'openbao':
           storage => {
             file => {
               path => '/tmp',
@@ -147,7 +147,7 @@ describe 'vault class' do
         PUPPET
       end
     end
-    describe service('vault') do
+    describe service('openbao') do
       it { is_expected.to be_enabled }
       it { is_expected.to be_running }
     end

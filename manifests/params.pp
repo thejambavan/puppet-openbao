@@ -1,9 +1,9 @@
 #
-# @summary This class is meant to be called from vault. It sets variables according to platform.
+# @summary This class is meant to be called from openbao. It sets variables according to platform.
 #
 # @api private
 #
-class vault::params {
+class openbao::params {
   case $facts['os']['architecture'] {
     'aarch64':        { $arch = 'arm64' }
     /(x86_64|amd64)/: { $arch = 'amd64' }
