@@ -11,7 +11,7 @@
 [![Donated by jsok](https://img.shields.io/badge/donated%20by-jsok-fb7047.svg)](#transfer-notice)
 
 
-Puppet module to install and run [OpenBao](https://openbao.org). Forked from [![voxpopuli/vault](https://github.com/voxpupuli/puppet-vault)
+Puppet module to install and run [OpenBao](https://openbao.org). Forked from [voxpopuli/vault](https://github.com/voxpupuli/puppet-vault)
 
 ## Support
 
