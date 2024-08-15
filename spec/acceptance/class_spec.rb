@@ -38,12 +38,12 @@ describe 'openbao class' do
     end
     # rubocop:enable RSpec/RepeatedExampleGroupBody
 
-    describe command('getcap /usr/local/bin/openbao') do
+    describe command('getcap /usr/local/bin/bao') do
       its(:exit_status) { is_expected.to eq 0 }
-      its(:stdout) { is_expected.to match %r{/usr/local/bin/openbao.*cap_ipc_lock.*ep} }
+      its(:stdout) { is_expected.to match %r{/usr/local/bin/bao.*cap_ipc_lock.*ep} }
     end
 
-    describe file('/usr/local/bin/openbao') do
+    describe file('/usr/local/bin/bao') do
       it { is_expected.to exist }
       it { is_expected.to be_mode 755 }
       it { is_expected.to be_owned_by 'root' }
@@ -57,7 +57,7 @@ describe 'openbao class' do
       it { is_expected.to be_grouped_into 'root' }
       its(:content) { is_expected.to include 'User=openbao' }
       its(:content) { is_expected.to include 'Group=openbao' }
-      its(:content) { is_expected.to include 'ExecStart=/usr/local/bin/openbao server -config=/etc/openbao/config.json ' }
+      its(:content) { is_expected.to include 'ExecStart=/usr/local/bin/bao server -config=/etc/openbao/config.json ' }
       its(:content) { is_expected.to match %r{Environment=GOMAXPROCS=\d+} }
     end
 
@@ -83,7 +83,7 @@ describe 'openbao class' do
       it { is_expected.to be_listening.on('127.0.0.1').with('tcp') }
     end
 
-    describe command('/usr/local/bin/openbao version') do
+    describe command('/usr/local/bin/bao version') do
       its(:exit_status) { is_expected.to eq 0 }
       its(:stdout) { is_expected.to match %r{openbao v1.12.0} }
     end
@@ -118,7 +118,7 @@ describe 'openbao class' do
       apply_manifest(manifest, expect_changes: true)
     end
 
-    describe command('/usr/local/bin/openbao version') do
+    describe command('/usr/local/bin/bao version') do
       its(:exit_status) { is_expected.to eq 0 }
       its(:stdout) { is_expected.to match %r{openbao v1.12.1} }
     end

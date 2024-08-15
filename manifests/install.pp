@@ -3,7 +3,7 @@
 #
 class openbao::install {
   assert_private()
-  $openbao_bin = "${openbao::bin_dir}/openbao"
+  $openbao_bin = "${openbao::bin_dir}/bao"
 
   case $openbao::install_method {
     'archive': {
