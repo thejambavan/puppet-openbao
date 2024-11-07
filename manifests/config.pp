@@ -30,10 +30,10 @@ class openbao::config {
         'api_addr'          => $openbao::api_addr,
     })
 
-    $config_hash = merge($_config_hash, $openbao::extra_config)
+    $config_hash = stdlib::merge($_config_hash, $openbao::extra_config)
 
     file { "${openbao::config_dir}/config.json":
-      content => to_json_pretty($config_hash),
+      content => stdlib::to_json_pretty($config_hash),
       owner   => $openbao::user,
       group   => $openbao::group,
       mode    => $openbao::config_mode,
