@@ -8,80 +8,101 @@
 
 #### Public Classes
 
-* [`openbao`](#openbao): install openbao
+* [`vault`](#vault): install hashicorp vault
 
 #### Private Classes
 
-* `openbao::config`: This class is called from openbao for service config
-* `openbao::install`
-* `openbao::params`: This class is meant to be called from openbao. It sets variables according to platform.
-* `openbao::service`
+* `vault::config`: This class is called from vault for service config
+* `vault::install`
+* `vault::params`: This class is meant to be called from vault. It sets variables according to platform.
+* `vault::repo`: This class is called from vault to set up the managed apt or yum repo
+* `vault::service`
+
+### Functions
+
+* [`vault::to_hcl`](#vault--to_hcl): Converts a Vault configuration hash to HCL format.
 
 ## Classes
 
-### <a name="openbao"></a>`openbao`
+### <a name="vault"></a>`vault`
 
-install openbao
+Agent specific parameters
 
 #### Parameters
 
-The following parameters are available in the `openbao` class:
+The following parameters are available in the `vault` class:
 
-* [`user`](#-openbao--user)
-* [`manage_user`](#-openbao--manage_user)
-* [`group`](#-openbao--group)
-* [`manage_group`](#-openbao--manage_group)
-* [`bin_dir`](#-openbao--bin_dir)
-* [`config_dir`](#-openbao--config_dir)
-* [`config_mode`](#-openbao--config_mode)
-* [`purge_config_dir`](#-openbao--purge_config_dir)
-* [`download_url`](#-openbao--download_url)
-* [`download_url_base`](#-openbao--download_url_base)
-* [`download_extension`](#-openbao--download_extension)
-* [`service_name`](#-openbao--service_name)
-* [`service_provider`](#-openbao--service_provider)
-* [`service_options`](#-openbao--service_options)
-* [`manage_repo`](#-openbao--manage_repo)
-* [`manage_service`](#-openbao--manage_service)
-* [`num_procs`](#-openbao--num_procs)
-* [`api_addr`](#-openbao--api_addr)
-* [`version`](#-openbao--version)
-* [`extra_config`](#-openbao--extra_config)
-* [`enable_ui`](#-openbao--enable_ui)
-* [`arch`](#-openbao--arch)
-* [`os`](#-openbao--os)
-* [`manage_download_dir`](#-openbao--manage_download_dir)
-* [`download_dir`](#-openbao--download_dir)
-* [`package_ensure`](#-openbao--package_ensure)
-* [`package_name`](#-openbao--package_name)
-* [`install_method`](#-openbao--install_method)
-* [`manage_file_capabilities`](#-openbao--manage_file_capabilities)
-* [`disable_mlock`](#-openbao--disable_mlock)
-* [`max_lease_ttl`](#-openbao--max_lease_ttl)
-* [`default_lease_ttl`](#-openbao--default_lease_ttl)
-* [`telemetry`](#-openbao--telemetry)
-* [`disable_cache`](#-openbao--disable_cache)
-* [`seal`](#-openbao--seal)
-* [`ha_storage`](#-openbao--ha_storage)
-* [`listener`](#-openbao--listener)
-* [`manage_storage_dir`](#-openbao--manage_storage_dir)
-* [`storage`](#-openbao--storage)
-* [`manage_service_file`](#-openbao--manage_service_file)
-* [`service_ensure`](#-openbao--service_ensure)
-* [`service_enable`](#-openbao--service_enable)
-* [`manage_config_file`](#-openbao--manage_config_file)
-* [`download_filename`](#-openbao--download_filename)
-* [`manage_config_dir`](#-openbao--manage_config_dir)
+* [`user`](#-vault--user)
+* [`manage_user`](#-vault--manage_user)
+* [`group`](#-vault--group)
+* [`manage_group`](#-vault--manage_group)
+* [`bin_dir`](#-vault--bin_dir)
+* [`bin_name`](#-vault--bin_name)
+* [`config_format`](#-vault--config_format)
+* [`config_dir`](#-vault--config_dir)
+* [`config_filename`](#-vault--config_filename)
+* [`config_mode`](#-vault--config_mode)
+* [`purge_config_dir`](#-vault--purge_config_dir)
+* [`download_url`](#-vault--download_url)
+* [`download_url_base`](#-vault--download_url_base)
+* [`download_extension`](#-vault--download_extension)
+* [`service_name`](#-vault--service_name)
+* [`service_provider`](#-vault--service_provider)
+* [`service_options`](#-vault--service_options)
+* [`service_read_write_paths`](#-vault--service_read_write_paths)
+* [`manage_repo`](#-vault--manage_repo)
+* [`manage_service`](#-vault--manage_service)
+* [`num_procs`](#-vault--num_procs)
+* [`api_addr`](#-vault--api_addr)
+* [`version`](#-vault--version)
+* [`mode`](#-vault--mode)
+* [`extra_config`](#-vault--extra_config)
+* [`enable_ui`](#-vault--enable_ui)
+* [`arch`](#-vault--arch)
+* [`os`](#-vault--os)
+* [`manage_download_dir`](#-vault--manage_download_dir)
+* [`download_dir`](#-vault--download_dir)
+* [`manage_package`](#-vault--manage_package)
+* [`package_ensure`](#-vault--package_ensure)
+* [`package_name`](#-vault--package_name)
+* [`install_method`](#-vault--install_method)
+* [`manage_file_capabilities`](#-vault--manage_file_capabilities)
+* [`disable_mlock`](#-vault--disable_mlock)
+* [`max_lease_ttl`](#-vault--max_lease_ttl)
+* [`default_lease_ttl`](#-vault--default_lease_ttl)
+* [`telemetry`](#-vault--telemetry)
+* [`disable_cache`](#-vault--disable_cache)
+* [`seal`](#-vault--seal)
+* [`ha_storage`](#-vault--ha_storage)
+* [`listener`](#-vault--listener)
+* [`manage_storage_dir`](#-vault--manage_storage_dir)
+* [`storage`](#-vault--storage)
+* [`manage_service_file`](#-vault--manage_service_file)
+* [`service_ensure`](#-vault--service_ensure)
+* [`service_enable`](#-vault--service_enable)
+* [`manage_config_file`](#-vault--manage_config_file)
+* [`download_filename`](#-vault--download_filename)
+* [`manage_config_dir`](#-vault--manage_config_dir)
+* [`agent_vault`](#-vault--agent_vault)
+* [`agent_auto_auth`](#-vault--agent_auto_auth)
+* [`agent_api_proxy`](#-vault--agent_api_proxy)
+* [`agent_cache`](#-vault--agent_cache)
+* [`agent_listeners`](#-vault--agent_listeners)
+* [`agent_template`](#-vault--agent_template)
+* [`agent_template_config`](#-vault--agent_template_config)
+* [`agent_exec`](#-vault--agent_exec)
+* [`agent_env_template`](#-vault--agent_env_template)
+* [`agent_telemetry`](#-vault--agent_telemetry)
 
-##### <a name="-openbao--user"></a>`user`
+##### <a name="-vault--user"></a>`user`
 
 Data type: `Any`
 
-Customise the user openbao runs as, will also create the user unless `manage_user` is false.
+Customise the user vault runs as, will also create the user unless `manage_user` is false.
 
-Default value: `'openbao'`
+Default value: `'vault'`
 
-##### <a name="-openbao--manage_user"></a>`manage_user`
+##### <a name="-vault--manage_user"></a>`manage_user`
 
 Data type: `Any`
 
@@ -89,15 +110,15 @@ Whether or not the module should create the user.
 
 Default value: `true`
 
-##### <a name="-openbao--group"></a>`group`
+##### <a name="-vault--group"></a>`group`
 
 Data type: `Any`
 
-Customise the group openbao runs as, will also create the user unless `manage_group` is false.
+Customise the group vault runs as, will also create the user unless `manage_group` is false.
 
-Default value: `'openbao'`
+Default value: `'vault'`
 
-##### <a name="-openbao--manage_group"></a>`manage_group`
+##### <a name="-vault--manage_group"></a>`manage_group`
 
 Data type: `Any`
 
@@ -105,23 +126,47 @@ Whether or not the module should create the group.
 
 Default value: `true`
 
-##### <a name="-openbao--bin_dir"></a>`bin_dir`
+##### <a name="-vault--bin_dir"></a>`bin_dir`
 
 Data type: `Any`
 
-Directory the openbao executable will be installed in.
+Directory the vault executable will be installed in.
 
-Default value: `$openbao::params::bin_dir`
+Default value: `$vault::params::bin_dir`
 
-##### <a name="-openbao--config_dir"></a>`config_dir`
+##### <a name="-vault--bin_name"></a>`bin_name`
 
 Data type: `Any`
 
-Directory the openbao configuration will be kept in.
+The binary name which is used (e.g vault) can be set to bao if you want to use openbao
 
-Default value: `if $install_method == 'repo' and $manage_repo { '/etc/openbao.d' } else { '/etc/openbao'`
+Default value: `'vault'`
 
-##### <a name="-openbao--config_mode"></a>`config_mode`
+##### <a name="-vault--config_format"></a>`config_format`
+
+Data type: `Enum['hcl','json']`
+
+The format the config should use (hcl or json), default json
+
+Default value: `'json'`
+
+##### <a name="-vault--config_dir"></a>`config_dir`
+
+Data type: `Any`
+
+Directory the vault configuration will be kept in.
+
+Default value: `if $install_method == 'repo' and $manage_repo { '/etc/vault.d' } else { '/etc/vault'`
+
+##### <a name="-vault--config_filename"></a>`config_filename`
+
+Data type: `Any`
+
+Filename for the vault configuration. Defaults to 'config.config_format'
+
+Default value: `"config.${config_format}"`
+
+##### <a name="-vault--config_mode"></a>`config_mode`
 
 Data type: `Any`
 
@@ -129,7 +174,7 @@ Mode of the configuration file (config.json). Defaults to '0750'
 
 Default value: `'0750'`
 
-##### <a name="-openbao--purge_config_dir"></a>`purge_config_dir`
+##### <a name="-vault--purge_config_dir"></a>`purge_config_dir`
 
 Data type: `Any`
 
@@ -137,39 +182,39 @@ Whether the `config_dir` should be purged before installing the generated config
 
 Default value: `true`
 
-##### <a name="-openbao--download_url"></a>`download_url`
+##### <a name="-vault--download_url"></a>`download_url`
 
 Data type: `Any`
 
-Manual URL to download the openbao zip distribution from.
+Manual URL to download the vault zip distribution from.
 
 Default value: `undef`
 
-##### <a name="-openbao--download_url_base"></a>`download_url_base`
+##### <a name="-vault--download_url_base"></a>`download_url_base`
 
 Data type: `Any`
 
-Base URL to download openbao zip distribution from.
+Hashicorp base URL to download vault zip distribution from.
 
-Default value: `'https://github.com/openbao/openbao/releases/download/'`
+Default value: `'https://releases.hashicorp.com/vault/'`
 
-##### <a name="-openbao--download_extension"></a>`download_extension`
+##### <a name="-vault--download_extension"></a>`download_extension`
 
 Data type: `Any`
 
-The extension of the openbao download
+The extension of the vault download_extension
 
 Default value: `'zip'`
 
-##### <a name="-openbao--service_name"></a>`service_name`
+##### <a name="-vault--service_name"></a>`service_name`
 
 Data type: `Any`
 
 Customise the name of the system service
 
-Default value: `'openbao'`
+Default value: `'vault'`
 
-##### <a name="-openbao--service_provider"></a>`service_provider`
+##### <a name="-vault--service_provider"></a>`service_provider`
 
 Data type: `Any`
 
@@ -178,15 +223,33 @@ also controls the init configuration files that are installed.
 
 Default value: `$facts['service_provider']`
 
-##### <a name="-openbao--service_options"></a>`service_options`
+##### <a name="-vault--service_options"></a>`service_options`
 
 Data type: `Any`
 
-Extra argument to pass to `openbao server`, as per: `openbao server --help`
+Extra argument to pass to `vault server`, as per: `vault server --help`
 
 Default value: `''`
 
-##### <a name="-openbao--manage_service"></a>`manage_service`
+##### <a name="-vault--service_read_write_paths"></a>`service_read_write_paths`
+
+Data type: `Array[Stdlib::Absolutepath]`
+
+List of absolute paths added to the systemd service unit `ReadWritePaths=`
+directive, allowing the Vault/OpenBao process to write to these paths despite
+`ProtectSystem`/`ProtectHome` hardening. Empty by default (directive omitted).
+
+Default value: `[]`
+
+##### <a name="-vault--manage_repo"></a>`manage_repo`
+
+Data type: `Boolean`
+
+Configure the upstream HashiCorp repository. Only relevant when $nomad::install_method = 'repo'.
+
+Default value: `$vault::params::manage_repo`
+
+##### <a name="-vault--manage_service"></a>`manage_service`
 
 Data type: `Any`
 
@@ -194,243 +257,374 @@ Instruct puppet to manage service or not
 
 Default value: `true`
 
-##### <a name="-openbao--num_procs"></a>`num_procs`
+##### <a name="-vault--num_procs"></a>`num_procs`
 
 Data type: `Any`
 
-Sets the GOMAXPROCS environment variable, to determine how many CPUs openbao
-can use. The official openbao Terraform install.sh script sets this to the
+Sets the GOMAXPROCS environment variable, to determine how many CPUs Vault
+can use. The official Vault Terraform install.sh script sets this to the
 output of ``nprocs``, with the comment, "Make sure to use all our CPUs,
-because openbao can block a scheduler thread". Default: number of CPUs
+because Vault can block a scheduler thread". Default: number of CPUs
 on the system, retrieved from the ``processorcount`` Fact.
 
 Default value: `$facts['processors']['count']`
 
-##### <a name="-openbao--api_addr"></a>`api_addr`
+##### <a name="-vault--api_addr"></a>`api_addr`
 
 Data type: `Optional[String]`
 
-Specifies the address (full URL) to advertise to other openbao servers in the
+Specifies the address (full URL) to advertise to other Vault servers in the
 cluster for client redirection. This value is also used for plugin backends.
-This can also be provided via the environment variable openbao_API_ADDR. In
+This can also be provided via the environment variable VAULT_API_ADDR. In
 general this should be set as a full URL that points to the value of the
 listener address
 
 Default value: `undef`
 
-##### <a name="-openbao--version"></a>`version`
+##### <a name="-vault--version"></a>`version`
 
 Data type: `Any`
 
-The version of openbao to install
+The version of Vault to install
 
-Default value: `'1.12.0'`
+Default value: `'1.19.2'`
 
-##### <a name="-openbao--extra_config"></a>`extra_config`
+##### <a name="-vault--mode"></a>`mode`
+
+Data type: `Enum['server', 'agent']`
+
+Whether to start vault in 'server' or 'agent' mode
+
+Default value: `'server'`
+
+##### <a name="-vault--extra_config"></a>`extra_config`
 
 Data type: `Hash`
 
-
+Hash containing extra configuration options to merge with the generated config
 
 Default value: `{}`
 
-##### <a name="-openbao--enable_ui"></a>`enable_ui`
+##### <a name="-vault--enable_ui"></a>`enable_ui`
 
 Data type: `Optional[Boolean]`
 
-
+Whether to enable the Vault web UI
 
 Default value: `undef`
 
-##### <a name="-openbao--arch"></a>`arch`
+##### <a name="-vault--arch"></a>`arch`
 
 Data type: `Any`
 
+System architecture for the Vault binary (automatically determined)
 
+Default value: `$vault::params::arch`
 
-Default value: `$openbao::params::arch`
-
-##### <a name="-openbao--os"></a>`os`
+##### <a name="-vault--os"></a>`os`
 
 Data type: `Any`
 
-
+Operating system for the Vault binary (automatically determined)
 
 Default value: `downcase($facts['kernel'])`
 
-##### <a name="-openbao--manage_download_dir"></a>`manage_download_dir`
+##### <a name="-vault--manage_download_dir"></a>`manage_download_dir`
 
 Data type: `Any`
 
-
+Whether to manage the download directory
 
 Default value: `false`
 
-##### <a name="-openbao--download_dir"></a>`download_dir`
+##### <a name="-vault--download_dir"></a>`download_dir`
 
 Data type: `Any`
 
-
+Directory where the Vault archive will be downloaded
 
 Default value: `'/tmp'`
 
-##### <a name="-openbao--package_ensure"></a>`package_ensure`
-
-Data type: `Any`
-
-
-
-Default value: `'installed'`
-
-##### <a name="-openbao--package_name"></a>`package_name`
-
-Data type: `Any`
-
-
-
-Default value: `'openbao'`
-
-##### <a name="-openbao--install_method"></a>`install_method`
-
-Data type: `Any`
-
-
-
-Default value: `$openbao::params::install_method`
-
-##### <a name="-openbao--manage_file_capabilities"></a>`manage_file_capabilities`
-
-Data type: `Any`
-
-
-
-Default value: `undef`
-
-##### <a name="-openbao--disable_mlock"></a>`disable_mlock`
-
-Data type: `Any`
-
-
-
-Default value: `undef`
-
-##### <a name="-openbao--max_lease_ttl"></a>`max_lease_ttl`
-
-Data type: `Optional[String]`
-
-
-
-Default value: `undef`
-
-##### <a name="-openbao--default_lease_ttl"></a>`default_lease_ttl`
-
-Data type: `Optional[String]`
-
-
-
-Default value: `undef`
-
-##### <a name="-openbao--telemetry"></a>`telemetry`
-
-Data type: `Optional[Hash]`
-
-
-
-Default value: `undef`
-
-##### <a name="-openbao--disable_cache"></a>`disable_cache`
-
-Data type: `Optional[Boolean]`
-
-
-
-Default value: `undef`
-
-##### <a name="-openbao--seal"></a>`seal`
-
-Data type: `Optional[Hash]`
-
-
-
-Default value: `undef`
-
-##### <a name="-openbao--ha_storage"></a>`ha_storage`
-
-Data type: `Optional[Hash]`
-
-
-
-Default value: `undef`
-
-##### <a name="-openbao--listener"></a>`listener`
-
-Data type: `Variant[Hash, Array[Hash]]`
-
-
-
-Default value: `{ 'tcp' => { 'address' => '127.0.0.1:8200', 'tls_disable' => 1 }, }`
-
-##### <a name="-openbao--manage_storage_dir"></a>`manage_storage_dir`
-
-Data type: `Any`
-
-
-
-Default value: `false`
-
-##### <a name="-openbao--storage"></a>`storage`
-
-Data type: `Hash`
-
-
-
-Default value: `{ 'file' => { 'path' => '/var/lib/openbao' } }`
-
-##### <a name="-openbao--manage_service_file"></a>`manage_service_file`
-
-Data type: `Optional[Boolean]`
-
-
-
-Default value: `$openbao::params::manage_service_file`
-
-##### <a name="-openbao--service_ensure"></a>`service_ensure`
-
-Data type: `Any`
-
-
-
-Default value: `'running'`
-
-##### <a name="-openbao--service_enable"></a>`service_enable`
-
-Data type: `Any`
-
-
-
-Default value: `true`
-
-##### <a name="-openbao--manage_config_file"></a>`manage_config_file`
-
-Data type: `Any`
-
-
-
-Default value: `true`
-
-##### <a name="-openbao--download_filename"></a>`download_filename`
-
-Data type: `Any`
-
-
-
-Default value: `'openbao.zip'`
-
-##### <a name="-openbao--manage_config_dir"></a>`manage_config_dir`
+##### <a name="-vault--manage_package"></a>`manage_package`
 
 Data type: `Boolean`
 
-enable/disable the directory management. not required for package based installations
+Whether to manage the Vault package
+
+Default value: `true`
+
+##### <a name="-vault--package_ensure"></a>`package_ensure`
+
+Data type: `Any`
+
+The state the package should be in (installed, absent, latest)
+
+Default value: `'installed'`
+
+##### <a name="-vault--package_name"></a>`package_name`
+
+Data type: `Any`
+
+Name of the Vault package
+
+Default value: `'vault'`
+
+##### <a name="-vault--install_method"></a>`install_method`
+
+Data type: `Any`
+
+Installation method: 'archive' or 'repo'
+
+Default value: `$vault::params::install_method`
+
+##### <a name="-vault--manage_file_capabilities"></a>`manage_file_capabilities`
+
+Data type: `Any`
+
+Whether to manage Linux file capabilities for vault binary
+
+Default value: `undef`
+
+##### <a name="-vault--disable_mlock"></a>`disable_mlock`
+
+Data type: `Any`
+
+Whether to disable the memory lock capability
+
+Default value: `undef`
+
+##### <a name="-vault--max_lease_ttl"></a>`max_lease_ttl`
+
+Data type: `Optional[String]`
+
+Specifies the maximum possible lease duration for tokens and secrets
+
+Default value: `undef`
+
+##### <a name="-vault--default_lease_ttl"></a>`default_lease_ttl`
+
+Data type: `Optional[String]`
+
+Specifies the default lease duration for tokens and secrets
+
+Default value: `undef`
+
+##### <a name="-vault--telemetry"></a>`telemetry`
+
+Data type: `Optional[Hash]`
+
+Hash containing Vault telemetry configuration
+
+Default value: `undef`
+
+##### <a name="-vault--disable_cache"></a>`disable_cache`
+
+Data type: `Optional[Boolean]`
+
+Disable caching
+
+Default value: `undef`
+
+##### <a name="-vault--seal"></a>`seal`
+
+Data type: `Optional[Hash]`
+
+Hash containing seal configuration options
+
+Default value: `undef`
+
+##### <a name="-vault--ha_storage"></a>`ha_storage`
+
+Data type: `Optional[Hash]`
+
+Hash containing storage configuration for HA setup
+
+Default value: `undef`
+
+##### <a name="-vault--listener"></a>`listener`
+
+Data type: `Variant[Hash, Array[Hash]]`
+
+Hash or Array of hashes containing listener configuration
+
+Default value: `{ 'tcp'  => { 'address' => '127.0.0.1:8200', 'tls_disable' => 1 }, }`
+
+##### <a name="-vault--manage_storage_dir"></a>`manage_storage_dir`
+
+Data type: `Any`
+
+Whether to manage the storage directory
+
+Default value: `false`
+
+##### <a name="-vault--storage"></a>`storage`
+
+Data type: `Hash`
+
+Hash containing storage configuration
+
+Default value: `{ 'file' => { 'path' => '/var/lib/vault' } }`
+
+##### <a name="-vault--manage_service_file"></a>`manage_service_file`
+
+Data type: `Optional[Boolean]`
+
+Whether to manage the service file
+
+Default value: `$vault::params::manage_service_file`
+
+##### <a name="-vault--service_ensure"></a>`service_ensure`
+
+Data type: `Any`
+
+Desired state of the Vault service (running, stopped)
+
+Default value: `'running'`
+
+##### <a name="-vault--service_enable"></a>`service_enable`
+
+Data type: `Any`
+
+Whether to enable the Vault service on boot
+
+Default value: `true`
+
+##### <a name="-vault--manage_config_file"></a>`manage_config_file`
+
+Data type: `Any`
+
+Whether to manage the Vault config file
+
+Default value: `true`
+
+##### <a name="-vault--download_filename"></a>`download_filename`
+
+Data type: `Any`
+
+Filename for the downloaded archive
+
+Default value: `'vault.zip'`
+
+##### <a name="-vault--manage_config_dir"></a>`manage_config_dir`
+
+Data type: `Boolean`
+
+Whether to manage the configuration directory
 
 Default value: `$install_method == 'archive'`
 
+##### <a name="-vault--agent_vault"></a>`agent_vault`
+
+Data type: `Optional[Hash]`
+
+Hash containing Vault server connection configuration for agent mode
+
+Default value: `undef`
+
+##### <a name="-vault--agent_auto_auth"></a>`agent_auto_auth`
+
+Data type: `Optional[Hash]`
+
+Hash containing auto-auth configuration for agent mode
+
+Default value: `undef`
+
+##### <a name="-vault--agent_api_proxy"></a>`agent_api_proxy`
+
+Data type: `Optional[Hash]`
+
+Hash containing API proxy configuration for agent mode
+
+Default value: `undef`
+
+##### <a name="-vault--agent_cache"></a>`agent_cache`
+
+Data type: `Optional[Hash]`
+
+Hash containing cache configuration for agent mode
+
+Default value: `undef`
+
+##### <a name="-vault--agent_listeners"></a>`agent_listeners`
+
+Data type: `Optional[Array[Hash]]`
+
+Array of hashes containing listener configuration for agent mode
+
+Default value: `undef`
+
+##### <a name="-vault--agent_template"></a>`agent_template`
+
+Data type: `Optional[Hash]`
+
+Hash containing template configuration for agent mode
+
+Default value: `undef`
+
+##### <a name="-vault--agent_template_config"></a>`agent_template_config`
+
+Data type: `Optional[Hash]`
+
+Hash containing template engine configuration for agent mode
+
+Default value: `undef`
+
+##### <a name="-vault--agent_exec"></a>`agent_exec`
+
+Data type: `Optional[Hash]`
+
+Hash containing exec configuration for agent mode
+
+Default value: `undef`
+
+##### <a name="-vault--agent_env_template"></a>`agent_env_template`
+
+Data type: `Optional[Hash]`
+
+Hash containing environment template configuration for agent mode
+
+Default value: `undef`
+
+##### <a name="-vault--agent_telemetry"></a>`agent_telemetry`
+
+Data type: `Optional[Hash]`
+
+Hash containing telemetry configuration for agent mode
+
+Default value: `undef`
+
+## Functions
+
+### <a name="vault--to_hcl"></a>`vault::to_hcl`
+
+Type: Ruby 4.x API
+
+Converts a Vault configuration hash to HCL format.
+
+#### Examples
+
+##### Converting a config hash to HCL
+
+```puppet
+$hcl_content = vault::to_hcl($config_hash)
+```
+
+#### `vault::to_hcl(Hash $config)`
+
+The vault::to_hcl function.
+
+Returns: `String` The Vault configuration rendered as HCL.
+
+##### Examples
+
+###### Converting a config hash to HCL
+
+```puppet
+$hcl_content = vault::to_hcl($config_hash)
+```
+
+##### `config`
+
+Data type: `Hash`
+
+A hash containing the Vault configuration.

@@ -4,11 +4,74 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
-## [master ]
+## [v6.0.0](https://github.com/voxpupuli/puppet-vault/tree/v6.0.0) (2026-01-06)
 
-**Forked to puppet-openbao**
+[Full Changelog](https://github.com/voxpupuli/puppet-vault/compare/v5.1.0...v6.0.0)
 
-Fork the entire module rather than attempting to add functionality to support both.
+**Breaking changes:**
+
+- Drop puppet, update openvox minimum version to 8.19 [\#86](https://github.com/voxpupuli/puppet-vault/pull/86) ([TheMeier](https://github.com/TheMeier))
+
+**Implemented enhancements:**
+
+- Implement openbao support [\#92](https://github.com/voxpupuli/puppet-vault/pull/92) ([sebastianrakel](https://github.com/sebastianrakel))
+- puppet/archive: Allow 8.x [\#85](https://github.com/voxpupuli/puppet-vault/pull/85) ([TheMeier](https://github.com/TheMeier))
+
+**Merged pull requests:**
+
+- manage\_package variable is a Boolean, plus a test suite [\#82](https://github.com/voxpupuli/puppet-vault/pull/82) ([tskirvin](https://github.com/tskirvin))
+
+## [v5.1.0](https://github.com/voxpupuli/puppet-vault/tree/v5.1.0) (2025-04-25)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-vault/compare/v5.0.0...v5.1.0)
+
+**Implemented enhancements:**
+
+- Add Systemd Parameter MemorySwapMax to template [\#78](https://github.com/voxpupuli/puppet-vault/pull/78) ([C24-AK](https://github.com/C24-AK))
+
+## [v5.0.0](https://github.com/voxpupuli/puppet-vault/tree/v5.0.0) (2025-04-24)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-vault/compare/v4.2.0...v5.0.0)
+
+**Breaking changes:**
+
+- Require stdlib 9.x / use namespaced functions [\#76](https://github.com/voxpupuli/puppet-vault/pull/76) ([bastelfreak](https://github.com/bastelfreak))
+- Drop EoL RedHat 7 [\#75](https://github.com/voxpupuli/puppet-vault/pull/75) ([bastelfreak](https://github.com/bastelfreak))
+- Drop EoL CentOS 7 & 8 [\#74](https://github.com/voxpupuli/puppet-vault/pull/74) ([bastelfreak](https://github.com/bastelfreak))
+- Drop EoL Debian 10 [\#73](https://github.com/voxpupuli/puppet-vault/pull/73) ([bastelfreak](https://github.com/bastelfreak))
+- Drop EoL Ubuntu 18.04 support [\#72](https://github.com/voxpupuli/puppet-vault/pull/72) ([bastelfreak](https://github.com/bastelfreak))
+- Update default Vault version 1.12.0-\>1.19.2 [\#68](https://github.com/voxpupuli/puppet-vault/pull/68) ([bastelfreak](https://github.com/bastelfreak))
+
+## [v4.2.0](https://github.com/voxpupuli/puppet-vault/tree/v4.2.0) (2025-04-24)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-vault/compare/v4.1.1...v4.2.0)
+
+**Implemented enhancements:**
+
+- Add Ubuntu 22.04 & 24.04 support [\#70](https://github.com/voxpupuli/puppet-vault/pull/70) ([bastelfreak](https://github.com/bastelfreak))
+- Replace legacy merge\(\) with native puppet code [\#69](https://github.com/voxpupuli/puppet-vault/pull/69) ([bastelfreak](https://github.com/bastelfreak))
+- Add Systemd Parameter LimitCORE to template [\#67](https://github.com/voxpupuli/puppet-vault/pull/67) ([C24-AK](https://github.com/C24-AK))
+- metadata.json: Add OpenVox [\#66](https://github.com/voxpupuli/puppet-vault/pull/66) ([jstraw](https://github.com/jstraw))
+
+## [v4.1.1](https://github.com/voxpupuli/puppet-vault/tree/v4.1.1) (2025-01-20)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-vault/compare/v4.1.0...v4.1.1)
+
+**Implemented enhancements:**
+
+- Support Vault agent in service and config file [\#61](https://github.com/voxpupuli/puppet-vault/pull/61) ([sasudi90](https://github.com/sasudi90))
+- puppet/systemd: allow 8.x [\#59](https://github.com/voxpupuli/puppet-vault/pull/59) ([jay7x](https://github.com/jay7x))
+- update puppet-systemd upper bound to 8.0.0 [\#50](https://github.com/voxpupuli/puppet-vault/pull/50) ([TheMeier](https://github.com/TheMeier))
+- The package resource name was hardcoded instead of using the value in… [\#27](https://github.com/voxpupuli/puppet-vault/pull/27) ([sirinek](https://github.com/sirinek))
+
+**Fixed bugs:**
+
+- \(\#29\) Ensure vault is updated when version changes [\#52](https://github.com/voxpupuli/puppet-vault/pull/52) ([C24-AK](https://github.com/C24-AK))
+
+**Closed issues:**
+
+- Module does not support Vault agent only server [\#60](https://github.com/voxpupuli/puppet-vault/issues/60)
+- Publish on puppetforge [\#21](https://github.com/voxpupuli/puppet-vault/issues/21)
 
 ## [v4.1.0](https://github.com/voxpupuli/puppet-vault/tree/v4.1.0) (2023-11-19)
 
